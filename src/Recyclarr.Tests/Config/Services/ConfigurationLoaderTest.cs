@@ -48,6 +48,7 @@ public class ConfigurationLoaderTest
     [SuppressMessage("Performance", "CA1822", MessageId = "Mark members as static")]
     public class TestConfig : IServiceConfiguration
     {
+        public string Name { get; set; } = "";
         public string BaseUrl => "";
         public string ApiKey => "";
     }

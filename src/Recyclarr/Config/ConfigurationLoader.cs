@@ -50,14 +50,21 @@ public class ConfigurationLoader<T> : IConfigurationLoader<T>
                 continue;
             }
 
-            var configs = _deserializer.Deserialize<List<T>?>(parser);
+            var configs = _deserializer.Deserialize<Dictionary<string, T>?>(parser);
             if (configs == null)
             {
                 parser.SkipThisAndNestedEvents();
                 continue;
             }
 
-            ValidateConfigs(configSection, configs, validConfigs);
+            var namedConfigs = configs.Select(x =>
+            {
+                var config = x.Value;
+                config.Name = x.Key;
+                return config;
+            });
+
+            ValidateConfigs(configSection, namedConfigs, validConfigs);
             parser.SkipThisAndNestedEvents();
         }
 
